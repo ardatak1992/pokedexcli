@@ -5,20 +5,30 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/ardatak1992/pokedexcli/internal/pokeapi"
 )
 
-func startRepl() {
+type Config struct {
+	PokeapiClient    pokeapi.Client
+	NextLocationsURL *string
+	PrevLocationsURL *string
+}
+
+func startRepl(cfg *Config) {
 	reader := bufio.NewScanner(os.Stdin)
 
 	commands := getCommands()
-	config := Config{Page: 0}
 
 	for {
 		fmt.Print("Pokedex > ")
 		reader.Scan()
 		inputArr := cleanInput(reader.Text())
 		if com, ok := commands[inputArr[0]]; ok {
-			com.callback(&config)
+			err := com.callback(cfg)
+			if err != nil {
+				fmt.Println(err)
+			}
 		}
 
 	}
