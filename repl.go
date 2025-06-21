@@ -24,8 +24,12 @@ func startRepl(cfg *Config) {
 		fmt.Print("Pokedex > ")
 		reader.Scan()
 		inputArr := cleanInput(reader.Text())
+		params := []string{}
+		if len(inputArr) > 1 {
+			params = inputArr[1:]
+		}
 		if com, ok := commands[inputArr[0]]; ok {
-			err := com.callback(cfg)
+			err := com.callback(cfg, params...)
 			if err != nil {
 				fmt.Println(err)
 			}

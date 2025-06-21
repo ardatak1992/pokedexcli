@@ -12,7 +12,7 @@ func (c *Client) ListLocations(pageURL *string) (RespShallowLocations, error) {
 		url = *pageURL
 	}
 	var dat []byte
-	entry, ok := c.cache.Get(url)
+	entry, ok := c.locationCache.Get(url)
 	if ok {
 		dat = entry
 	} else {
@@ -33,7 +33,7 @@ func (c *Client) ListLocations(pageURL *string) (RespShallowLocations, error) {
 			return RespShallowLocations{}, err
 		}
 
-		c.cache.Add(url, dat)
+		c.locationCache.Add(url, dat)
 	}
 
 	locationsResp := RespShallowLocations{}
