@@ -11,7 +11,7 @@ type Client struct {
 	httpClient    http.Client
 	locationCache *pokecache.Cache
 	pokemonCache  *pokecache.Cache
-	pokedex       *map[string]Pokemon
+	Pokedex       map[string]Pokemon
 }
 
 func NewClient(timeout time.Duration) Client {
@@ -21,6 +21,6 @@ func NewClient(timeout time.Duration) Client {
 		},
 		locationCache: pokecache.NewCache(10 * time.Second),
 		pokemonCache:  pokecache.NewCache(10 * time.Second),
-		pokedex:       &map[string]Pokemon{},
+		Pokedex:       map[string]Pokemon{},
 	}
 }
