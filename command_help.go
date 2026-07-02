@@ -1,8 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
-func commandHelp() error {
+func commandHelp(cfg *config) error {
 	commands := populateCommands()
 	fmt.Println("Welcome to the Pokedex!")
 	fmt.Println("Name\tDescription")

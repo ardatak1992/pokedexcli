@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/ardatak1992/pokedexcli/internal/pokeapi"
 )
 
 func cleanInput(text string) []string {
@@ -15,7 +17,13 @@ func cleanInput(text string) []string {
 	return words
 }
 
-func startRepl() error {
+type config struct {
+	pokeapiClient pokeapi.Client
+	previousURL   *string
+	nextURL       *string
+}
+
+func startRepl(cfg *config) error {
 	scanner := bufio.NewScanner(os.Stdin)
 	commands := populateCommands()
 
@@ -36,7 +44,7 @@ func startRepl() error {
 			continue
 		}
 
-		err := command.callback()
+		err := command.callback(cfg)
 		if err != nil {
 			return err
 		}
