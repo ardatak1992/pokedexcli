@@ -6,7 +6,9 @@ import (
 
 func commandMap(cfg *config) error {
 
+	
 	locations, err := cfg.pokeapiClient.GetAreas(cfg.nextURL)
+
 	if err != nil {
 		return fmt.Errorf("Error in GetAreas: %v", err)
 	}

@@ -13,6 +13,15 @@ func (c *Client) GetAreas(pageURL *string) (LocationResponse, error) {
 	if pageURL != nil {
 		url = *pageURL
 	}
+	var locations LocationResponse
+	cachedItem, ok := c.pokeCache.Get(url)
+	if ok {
+		err := json.Unmarshal(cachedItem, &locations)
+		if err != nil {
+			return LocationResponse{}, fmt.Errorf("Error getting cached item: %v", err)
+		}
+		return locations, nil
+	}
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
@@ -30,7 +39,6 @@ func (c *Client) GetAreas(pageURL *string) (LocationResponse, error) {
 		return LocationResponse{}, fmt.Errorf("Error reading data: %v", err)
 	}
 
-	var locations LocationResponse
 	err = json.Unmarshal(data, &locations)
 	if err != nil {
 		return LocationResponse{}, fmt.Errorf("Error unmarshaling data: %v", err)
