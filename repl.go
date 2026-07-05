@@ -38,16 +38,18 @@ func startRepl(cfg *config) error {
 		}
 
 		command, ok := commands[inputSlice[0]]
+		args := inputSlice[1:]
 
 		if !ok {
 			fmt.Printf("Unknown command: %s\n", inputSlice[0])
 			continue
 		}
 
-		err := command.callback(cfg)
+		err := command.callback(cfg, args)
 		if err != nil {
 			return err
 		}
 
+		scanner.Err()
 	}
 }
