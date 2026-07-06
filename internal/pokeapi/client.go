@@ -7,6 +7,10 @@ import (
 	"github.com/ardatak1992/pokedexcli/internal/pokecache"
 )
 
+type Pokedex struct {
+	pokemon map[string]Pokemon
+}
+
 type Client struct {
 	httpClient http.Client
 	pokeCache  pokecache.Cache

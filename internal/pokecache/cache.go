@@ -15,6 +15,7 @@ type Cache struct {
 	mu      *sync.RWMutex
 }
 
+
 func NewCache(interval time.Duration) Cache {
 
 	c := Cache{

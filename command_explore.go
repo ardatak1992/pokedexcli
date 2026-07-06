@@ -14,6 +14,8 @@ func commandExplore(cfg *config, args []string) error {
 		return err
 	}
 
+	
+
 	for _, pokemon := range loc.PokemonEncounters {
 		fmt.Printf("%s\n", pokemon.Pokemon.Name)
 	}

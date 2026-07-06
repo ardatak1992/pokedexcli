@@ -17,10 +17,15 @@ func cleanInput(text string) []string {
 	return words
 }
 
+type pokedex struct {
+	entries map[string]pokeapi.Pokemon
+}
+
 type config struct {
 	pokeapiClient pokeapi.Client
 	previousURL   *string
 	nextURL       *string
+	pokedex       pokedex
 }
 
 func startRepl(cfg *config) error {
