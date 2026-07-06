@@ -25,7 +25,7 @@ func (c *Client) GetAreas(pageURL *string) (LocationResponse, error) {
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		return LocationResponse{}, fmt.Errorf("Error sending request: %v", err)
+		return LocationResponse{}, fmt.Errorf("Error creating request: %v", err)
 	}
 
 	res, err := c.httpClient.Do(req)
@@ -34,10 +34,16 @@ func (c *Client) GetAreas(pageURL *string) (LocationResponse, error) {
 	}
 	defer res.Body.Close()
 
+	if res.StatusCode > 299 {
+		return LocationResponse{}, nil
+	}
+
 	data, err := io.ReadAll(res.Body)
 	if err != nil {
 		return LocationResponse{}, fmt.Errorf("Error reading data: %v", err)
 	}
+
+	c.pokeCache.Add(url, data)
 
 	err = json.Unmarshal(data, &locations)
 	if err != nil {
