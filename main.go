@@ -10,9 +10,11 @@ import (
 func main() {
 
 	pokeClient := pokeapi.NewClient(5 * time.Second)
+	pokedex := pokedex{entries: map[string]pokeapi.Pokemon{}}
 
 	cfg := &config{
 		pokeapiClient: pokeClient,
+		pokedex:       pokedex,
 	}
 
 	err := startRepl(cfg)
